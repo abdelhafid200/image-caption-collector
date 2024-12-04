@@ -5,7 +5,7 @@ import os
 import time
 from datetime import datetime
 import re
-from config.settings import COLLECTED_DIR, CONSIDER_MAX_ITERATON, MAX_ITERATON, WATING
+from config import COLLECTED_DIR, CONSIDER_MAX_ITERATON, MAX_ITERATON, WATING, TRY_MANY
 
 class APIBase(ABC):
     def __init__(self, cookies_str, base_url, max_iteration=5):
@@ -32,10 +32,15 @@ class APIBase(ABC):
 
     def _save_to_csv(self, data_list, file_path):
         os.makedirs(COLLECTED_DIR, exist_ok=True)
+
         with open(file_path, mode="w", newline="", encoding="utf-8") as csv_file:
-            writer = csv.DictWriter(csv_file, fieldnames=data_list[0].keys())
+            fieldnames = list(data_list[0].keys()) + ["query"]
+            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
             writer.writeheader()
-            writer.writerows(data_list)
+
+            for row in data_list:
+                row["query"] = self.query
+                writer.writerow(row)
 
     @abstractmethod
     def _fetch_data(self):
@@ -43,6 +48,14 @@ class APIBase(ABC):
  
     @abstractmethod
     def name(self):
+        pass
+
+    @abstractmethod
+    def reset(self):
+        pass
+
+    @abstractmethod
+    def next(self):
         pass
 
     @abstractmethod
@@ -57,12 +70,21 @@ class APIBase(ABC):
 
     def execute(self):
         i = 0
+        err = 0
         while CONSIDER_MAX_ITERATON == '0' or i < MAX_ITERATON:
+            if err == TRY_MANY:
+                print(f"[CONTINUE] [] Many errors")
+                self.next()
+                err = 0
+                i+=1
+                continue
+            
             try:
-                print(f"------------------------------------------------------------")
-                # Fetch and parse the data
+                print(f"{err}------------------------------------------------------------")
                 json_response = self._fetch_data()
                 
+                self.next()
+                err = 0
                 if not json_response.get("items"):
                     print(f"[EXIT] [] Finished")
                     break
@@ -80,7 +102,8 @@ class APIBase(ABC):
                 i+=1
 
             except requests.exceptions.RequestException as e:
-                print(f"[ERROR] [fetching data] {e}")
+                print(f"[ERROR] [] {e}")
+                err+=1
 
             if (WATING == "1"):
                 print(f"[WAIT] wating 5s ...")

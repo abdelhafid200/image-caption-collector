@@ -1,5 +1,5 @@
 import requests
-from collector.api_base import APIBase
+from collector import APIBase
 
 class OpenArtAPI(APIBase):
     def __init__(self, cookies_str, base_url):
@@ -7,10 +7,12 @@ class OpenArtAPI(APIBase):
         self.cursor = 0
         
     def reset(self):
-        self.cursor = 9
+        self.cursor = 0
+
+    def next(self):
+        self.cursor = self.cursor + 100
     
     def _fetch_data(self):
-        self.cursor = self.cursor + 100
         params = {
             "query": self.query,
             "cursor": self.cursor,
