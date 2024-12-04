@@ -85,11 +85,12 @@ class APIBase(ABC):
                 
                 self.next()
                 err = 0
-                if not json_response.get("items"):
-                    print(f"[EXIT] [] Finished")
-                    break
                 
                 data_list = self._parse_data(json_response)
+
+                if len(data_list) == 0:
+                    print(f"[EXIT] [] Finished")
+                    break
 
                 # Create a timestamped file name
                 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")

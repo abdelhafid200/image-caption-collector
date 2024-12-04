@@ -28,6 +28,7 @@ jobs:
         env:
           FREEPIK_COOKIES: ${{ secrets.FREEPIK_COOKIES }}
           OPENART_COOKIES: ${{ secrets.OPENART_COOKIES }}
+          PIXLR_COOKIES: ${{ secrets.PIXLR_COOKIES }}
           CONSIDER_MAX_ITERATON: ${{ secrets.CONSIDER_MAX_ITERATON }}
           MAX_ITERATON: ${{ secrets.MAX_ITERATON }}
           WATING: ${{ secrets.WATING }}

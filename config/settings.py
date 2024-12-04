@@ -6,6 +6,9 @@ load_dotenv()
 OPENART_COOKIES = os.getenv('OPENART_COOKIES')
 OPENART_BASE_URL = "https://openart.ai/api/search"
 
+PIXLR_COOKIES = os.getenv('PIXLR_COOKIES')
+PIXLR_BASE_URL = "https://pixlr.com/api/image-generator/feeds/popular"
+
 FREEPIK_COOKIES = os.getenv('FREEPIK_COOKIES')
 FREEPIK_BASE_URL = "https://www.freepik.com/api/regular/search"
 
