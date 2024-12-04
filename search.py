@@ -170,3 +170,19 @@ search_prompts = [
     "Cartoon urban street art style",
     "Cartoon animals with exaggerated expressions"
 ]
+
+search_prompts = [
+    "Cartoon character design",
+    "Cartoon character poses",
+    "Cartoon character turnarounds",
+    "Cute cartoon characters",
+    "Animal cartoon characters",
+    "Superhero cartoon characters",
+    "Villain cartoon characters",
+    "Robot cartoon characters",
+    "Fantasy cartoon characters",
+    "Chibi cartoon characters",
+    "Cartoon characters in action poses",
+    "Cartoon characters with detailed costumes",
+    "Cartoon characters in different moods (happy, sad, angry)",
+]
