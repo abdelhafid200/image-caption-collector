@@ -12,10 +12,10 @@ class APIBase(ABC):
         self.query = ""
         self.cookies = self._extract_cookies(cookies_str)
         self.base_url = base_url
-        os.makedirs(self._dir(), exist_ok=True)
+        os.makedirs(self.dir(), exist_ok=True)
 
-    def _dir(self):
-        return f"{SCRAPPING_DIR}/{self._name()}"
+    def dir(self):
+        return f"{SCRAPPING_DIR}/{self.name()}"
 
     def _extract_cookies(self, cookies_str):
         cookies = {}
@@ -41,7 +41,7 @@ class APIBase(ABC):
         pass
  
     @abstractmethod
-    def _name(self):
+    def name(self):
         pass
 
     @abstractmethod
@@ -69,7 +69,7 @@ class APIBase(ABC):
 
                 # Create a timestamped file name
                 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                csv_file_name = os.path.join(self._dir(), f"{self._name()}_{timestamp}.csv")
+                csv_file_name = os.path.join(self.dir(), f"{self.name()}_{timestamp}.csv")
 
                 # Save to CSV
                 self._save_to_csv(data_list, csv_file_name)

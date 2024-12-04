@@ -1,3 +1,4 @@
+from cleaner.cleaner import clean
 from collector import FreepikAPI
 from collector import OpenArtAPI
 from config.settings import FREEPIK_BASE_URL,FREEPIK_COOKIES,OPENART_BASE_URL,OPENART_COOKIES
@@ -11,7 +12,11 @@ def collect(q: str):
     freepik = FreepikAPI(cookies_str=FREEPIK_COOKIES, base_url=FREEPIK_BASE_URL)
     freepik.set_query(q)
     freepik.execute()
+    
+    return [openart, freepik]
 
 if __name__ == "__main__":
     for q in search_prompts:
-        collect(q)
+        [openart, freepik] = collect(q)
+        clean(openart)
+        clean(freepik)

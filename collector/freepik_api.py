@@ -22,7 +22,7 @@ class FreepikAPI(APIBase):
         response.raise_for_status()
         return response.json()
     
-    def _name(self):
+    def name(self):
         return "freepik"
 
     def _parse_data(self, json_response):
