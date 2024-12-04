@@ -31,6 +31,8 @@ jobs:
           CONSIDER_MAX_ITERATON: ${{ secrets.CONSIDER_MAX_ITERATON }}
           MAX_ITERATON: ${{ secrets.MAX_ITERATON }}
           WATING: ${{ secrets.WATING }}
+          TRY_MANY: ${{ secrets.TRY_MANY }}
+          SEARCH_PROMPTS: ${{ secrets.SEARCH_PROMPTS }}
         run: python main.py
 
       - name: Commit and push changes
