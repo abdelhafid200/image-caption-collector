@@ -8,10 +8,11 @@ import re
 from config.settings import SCRAPPING_DIR
 
 class APIBase(ABC):
-    def __init__(self, cookies_str, base_url):
+    def __init__(self, cookies_str, base_url, max_iteration=10):
         self.query = ""
         self.cookies = self._extract_cookies(cookies_str)
         self.base_url = base_url
+        self.max_iteration = max_iteration
         os.makedirs(self.dir(), exist_ok=True)
 
     def dir(self):
@@ -55,7 +56,8 @@ class APIBase(ABC):
         self.query = q
 
     def execute(self):
-        while True:
+        i = 0
+        while i < self.max_iteration:
             try:
                 print(f"------------------------------------------------------------")
                 # Fetch and parse the data
@@ -74,6 +76,8 @@ class APIBase(ABC):
                 # Save to CSV
                 self._save_to_csv(data_list, csv_file_name)
                 print(f"[SAVED] [] {csv_file_name}")
+                
+                i+=1
 
             except requests.exceptions.RequestException as e:
                 print(f"[ERROR] [fetching data] {e}")
