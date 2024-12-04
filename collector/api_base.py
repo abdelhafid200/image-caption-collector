@@ -12,7 +12,7 @@ class APIBase(ABC):
         self.query = ""
         self.cookies = self._extract_cookies(cookies_str)
         self.base_url = base_url
-        os.makedirs(self._dir())
+        os.makedirs(self._dir(), exist_ok=True)
 
     def _dir(self):
         return f"{SCRAPPING_DIR}/{self._name()}"
@@ -79,5 +79,5 @@ class APIBase(ABC):
                 print(f"[ERROR] [fetching data] {e}")
 
             print(f"[WAIT] wating 5s ...")
-            time.sleep(10)
+            time.sleep(5)
 

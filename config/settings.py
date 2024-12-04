@@ -10,5 +10,3 @@ FREEPIK_COOKIES = os.getenv('FREEPIK_COOKIES')
 FREEPIK_BASE_URL = "https://www.freepik.com/api/regular/search"
 
 SCRAPPING_DIR = os.getenv('SCRAPPING_DIR',"collected")
-
-print(OPENART_COOKIES)
