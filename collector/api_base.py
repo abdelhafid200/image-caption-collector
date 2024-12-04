@@ -5,10 +5,10 @@ import os
 import time
 from datetime import datetime
 import re
-from config.settings import SCRAPPING_DIR
+from config.settings import COLLECTED_DIR, CONSIDER_MAX_ITERATON, MAX_ITERATON, WATING
 
 class APIBase(ABC):
-    def __init__(self, cookies_str, base_url, max_iteration=10):
+    def __init__(self, cookies_str, base_url, max_iteration=5):
         self.query = ""
         self.cookies = self._extract_cookies(cookies_str)
         self.base_url = base_url
@@ -16,7 +16,7 @@ class APIBase(ABC):
         os.makedirs(self.dir(), exist_ok=True)
 
     def dir(self):
-        return f"{SCRAPPING_DIR}/{self.name()}"
+        return f"{COLLECTED_DIR}/{self.name()}"
 
     def _extract_cookies(self, cookies_str):
         cookies = {}
@@ -31,7 +31,7 @@ class APIBase(ABC):
         return cookies
 
     def _save_to_csv(self, data_list, file_path):
-        os.makedirs(SCRAPPING_DIR, exist_ok=True)
+        os.makedirs(COLLECTED_DIR, exist_ok=True)
         with open(file_path, mode="w", newline="", encoding="utf-8") as csv_file:
             writer = csv.DictWriter(csv_file, fieldnames=data_list[0].keys())
             writer.writeheader()
@@ -57,7 +57,7 @@ class APIBase(ABC):
 
     def execute(self):
         i = 0
-        while i < self.max_iteration:
+        while CONSIDER_MAX_ITERATON == '0' or i < MAX_ITERATON:
             try:
                 print(f"------------------------------------------------------------")
                 # Fetch and parse the data
@@ -71,7 +71,7 @@ class APIBase(ABC):
 
                 # Create a timestamped file name
                 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                csv_file_name = os.path.join(self.dir(), f"{self.name()}_{timestamp}.csv")
+                csv_file_name = os.path.join(self.dir(), f"{self.name()}__{len(data_list)}__{timestamp}.csv")
 
                 # Save to CSV
                 self._save_to_csv(data_list, csv_file_name)
@@ -82,6 +82,7 @@ class APIBase(ABC):
             except requests.exceptions.RequestException as e:
                 print(f"[ERROR] [fetching data] {e}")
 
-            print(f"[WAIT] wating 5s ...")
-            time.sleep(5)
+            if (WATING == "1"):
+                print(f"[WAIT] wating 5s ...")
+                time.sleep(5)
 

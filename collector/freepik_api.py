@@ -4,10 +4,10 @@ from collector.api_base import APIBase
 class FreepikAPI(APIBase):
     def __init__(self, cookies_str, base_url):
         super().__init__(cookies_str, base_url)
-        self.pagination = {"currentPage": 1}
+        self.pagination = {"currentPage": 0}
         
     def reset(self):
-        self.pagination = {"currentPage": 1}
+        self.pagination = {"currentPage": 0}
 
     def _fetch_data(self):
         self.pagination["currentPage"] = self.pagination["currentPage"] + 1

@@ -31,12 +31,15 @@ jobs:
         env:
           FREEPIK_COOKIES: ${{ secrets.FREEPIK_COOKIES }}
           OPENART_COOKIES: ${{ secrets.OPENART_COOKIES }}
+          CONSIDER_MAX_ITERATON: ${{ secrets.CONSIDER_MAX_ITERATON }}
+          MAX_ITERATON: ${{ secrets.MAX_ITERATON }}
+          WATING: ${{ secrets.WATING }}
         run: python main.py
 
       - name: Commit and push changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add collected
+          git -f add collected
           git commit -m "Collected and updated data: $(date)"
           git push
