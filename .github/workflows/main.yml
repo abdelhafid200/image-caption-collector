@@ -40,6 +40,6 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git -f add collected
+          git add -f collected
           git commit -m "Collected and updated data: $(date)"
           git push
