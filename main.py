@@ -11,6 +11,9 @@ def collect(q: str):
         api.execute()
 
 if __name__ == "__main__":
+    print("=" * 50)
+    print(search_prompts)
+    print("=" * 50)
     for q in search_prompts:
         collect(q)
 

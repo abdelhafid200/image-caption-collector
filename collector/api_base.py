@@ -80,7 +80,7 @@ class APIBase(ABC):
                 continue
             
             try:
-                print(f"{err}------------------------------------------------------------")
+                print(("-" * 50) + (f"{err}" if err > 0 else ""))
                 json_response = self._fetch_data()
                 
                 self.next()
